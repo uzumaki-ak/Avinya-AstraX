@@ -1,37 +1,39 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useUser, useClerk, UserButton } from "@clerk/nextjs"
-import { Button } from "@/components/ui/button"
-import ThemeToggle from "@/components/theme-toggle"
-import { Menu, X, GraduationCap } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
-import Link from "next/link"
+import { useState, useEffect } from "react";
+import { useUser, useClerk, UserButton } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
+import ThemeToggle from "@/components/theme-toggle";
+import { Menu, X, GraduationCap } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { isSignedIn } = useUser()
-  const { signOut } = useClerk()
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isSignedIn } = useUser();
+  const { signOut } = useClerk();
 
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
-        setIsScrolled(true)
+        setIsScrolled(true);
       } else {
-        setIsScrolled(false)
+        setIsScrolled(false);
       }
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-sm py-3" : "bg-transparent py-5"
+        isScrolled
+          ? "bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-sm py-3"
+          : "bg-transparent py-5"
       }`}
     >
       <div className="container mx-auto px-4">
@@ -41,28 +43,32 @@ export default function Navbar() {
             <div className="bg-emerald-500 dark:bg-emerald-600 text-white p-1.5 rounded-md">
               <GraduationCap className="h-6 w-6" />
             </div>
-            <span className="font-bold text-xl text-gray-900 dark:text-white">CampusMate</span>
+            <span className="font-bold text-xl text-gray-900 dark:text-white">
+              CampusMate
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-          <Link
-              href="#"
+            <Link
+              href="/Donate"
               className="text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-semibold"
             >
-              Canteen 
+              Canteen
             </Link>
+            <a
+              href="http://localhost:3001/post"
+              target="_blank" // optional: opens in new tab
+              rel="noopener noreferrer"
+              className="text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-semibold"
+            >
+              Lost & Found
+            </a>
             <Link
               href="#"
               className="text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-semibold"
             >
-              Lost&Found
-            </Link>
-            <Link
-              href="#"
-              className="text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-semibold"
-            >
-              Scholorship 
+              Scholorship
             </Link>
             <Link
               href="#"
@@ -111,7 +117,11 @@ export default function Navbar() {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </Button>
           </div>
         </div>
@@ -147,8 +157,8 @@ export default function Navbar() {
                   <Button
                     className="w-full justify-center"
                     onClick={() => {
-                      setIsMobileMenuOpen(false)
-                      signOut({ redirectUrl: "/" })
+                      setIsMobileMenuOpen(false);
+                      signOut({ redirectUrl: "/" });
                     }}
                   >
                     Sign Out
@@ -160,7 +170,10 @@ export default function Navbar() {
                       className="w-full justify-center border-gray-300 dark:border-gray-700"
                       asChild
                     >
-                      <Link href="/sign-in" onClick={() => setIsMobileMenuOpen(false)}>
+                      <Link
+                        href="/sign-in"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
                         Sign In
                       </Link>
                     </Button>
@@ -168,7 +181,10 @@ export default function Navbar() {
                       className="w-full justify-center bg-emerald-600 hover:bg-emerald-700 text-white dark:bg-emerald-500 dark:hover:bg-emerald-600"
                       asChild
                     >
-                      <Link href="/sign-up" onClick={() => setIsMobileMenuOpen(false)}>
+                      <Link
+                        href="/sign-up"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
                         Sign Up
                       </Link>
                     </Button>
@@ -180,5 +196,5 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </header>
-  )
+  );
 }
